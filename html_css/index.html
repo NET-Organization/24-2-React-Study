@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[REACT] 1주차 과제 - 김다은</title>
+
+    <style>
+        .title-box {
+            width: 1860px;
+            height: 50px;
+            border: 1.5px solid black;
+            margin: 20px;
+            display: flex;
+            justify-content: center;  /* 가로 정렬 */
+            align-items: center;      /* 세로 정렬 */
+            text-align: center;       /* 텍스트 중앙 정렬 */
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3개의 동일한 너비 열 생성 */
+            grid-template-rows: repeat(3, 1fr);    /* 3개의 동일한 높이 행 생성 */
+            gap: 50px;  /* 칸 사이의 간격 */
+            width: 700px; /* 컨테이너 너비 설정 */
+            height: 950px; /* 컨테이너 높이 설정 */
+            margin: 50px 550px;
+        }
+
+        .box {
+            position: relative; /* 자식의 절대 위치 설정을 위한 기준 */
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            text-align: center;
+        }
+
+        .box::before {
+            content: attr(data-label); /* data-label 속성의 값을 텍스트로 사용 */
+            position: absolute; /* 박스의 절대 위치에 배치 */
+            top: -30px; /* 박스 위로 위치 이동 */
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 5px; /* 여백 */
+            z-index: 1; /* 박스보다 위에 표시 */
+        }
+
+
+        .box img {
+            width: 100%; /* 박스 너비에 맞게 이미지 크기 조정 */
+            height: auto; /* 이미지의 비율을 유지 */
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class="title-box">
+        <h1>24-2-REACT-STUDY 1주차</h1> 
+    </div>
+    <div class="container">
+        <div class="box" data-label="버럭">
+            <img src="https://i.namu.wiki/i/NWT9N0IkZP4DrJ1w3NHgq0juwQiHNhiQ6LdAhadTsXfJ4XCM7p5xDtpkNU4FvbG3vLimaAmiwIofECeakPZ8M0Kz7JTzCkH4Ef5CmMF02sGvKefAq8DZzXGURg2qw8mTduGlYg-J36XTBuJKpVmtjg.webp">
+        </div>
+        <div class="box" data-label="불안">
+            <img src="https://i.namu.wiki/i/rIf21_SI4VAI2A-S8_4L0GUEpHXtlV13hh_dl2y8xQE-dLemRpINd3pHL5hoIgPbhcu7EhG3pvUo0LRKhsYMmPLl9JbLfuvmP7hsQ4Gdlk9rOrKDFlLuMFSHcpzSwSIdMdnx4BCUyGgHDKKOux_03Q.webp">
+        </div>
+        <div class="box" data-label="까칠">
+            <img src="https://i.namu.wiki/i/9f_uVItyJJ_EzyJd--azFVj1hDze2CeELee8sbAVbTHxp4dyMD0yVjf6Jw8VEBUSzDjUSaB0DRqbEeAUGnsdVAP2L6yZSQUDexqOqFNmDACmC0XdCKucJklXZ5FQAfgVKxBTslzpwoXtd80caB4yLA.webp">
+        </div>
+        <div class="box" data-label="당황">
+            <img src="https://i.namu.wiki/i/ItF95NCebxnbDp_e5s5GS2NEOPhgvd7bQkdWMATVUBTaWHk5jchm4UjMG0ACZFwZ8seYR9LMgve3teoGNK0SVuRgc6AXS7QE2wfqf1MifpbwBi_AgdCxEVUBJCGwa_ZLe6-7NFKKZv2-0d3vEHp1lw.webp">
+        </div>
+        <div class="box" data-label="따분">
+            <img src="https://i.namu.wiki/i/IRvw3xUMsCdIlYcoPOvDO6byi9r2sCu_fP4GYb97kqZzGWqTYb2YTMOVVpQYfPBpw47n_u8jCg6KZwwu7WbpivPwLuFBu9-H1_R4B_ytGSV07K2jMEoblvzCd4k3A0aojzO5SLGsuqWo7NwlgR2sZw.webp">
+        </div>
+        <div class="box" data-label="부럽">
+            <img src="https://i.namu.wiki/i/KA-XEzdewZgNy465H85z2T-nlP4vtLftnCw7dymJ2HnncC9vOMo3KsJrzI0t_25SDz61BsfnEcymx3o6Tyve3yjPTwXI7zyjGmibciSoHinJr1mvrGIPyG4al0mQtwhLhRHKtt_ichzOZUg0ZqQR0g.webp">
+        </div>
+        <div class="box" data-label="소심">
+            <img src="https://i.namu.wiki/i/67l9npS04YPZElU5LeAEtU0oCzGcw-0cbjlDnZnppeAtECwRhEQuA_GemKPoeukHj0tRI5cfoTrhis-m4vs3gjin3BDkNQjYubVBo8JUCd29voi7iCECCvtBUT616apO55vmQvrfQzBjyQ-g6dMXfw.webp">
+        </div>
+        <div class="box" data-label="기쁨">
+            <img src="https://i.namu.wiki/i/0eE8uzy3alfLhvnLd-JqBPcemlMP-nCyqJWJ8pqmoWcloAUP_yA4JNECYcK2f3D0rvVUwa1bi7tK6hVx85JsmQ996-5HFG5_qd8ODmI3E0jZHuh2sp3KWikjvTYZKg5fDy87kwmovunTv67jYz3fug.webp">
+        </div>
+        <div class="box" data-label="슬픔">
+            <img src="https://i.namu.wiki/i/RQOxA5hgPlfNCOqzs4XwaCGO0Q1F4pzS0CIAZWMHivCY59e-hI9STvk1iJEgCcFTQvoRWmtRXs6OScsr0v5MxYJBehY7DQ5nIdb5k12yAKjEPSwcgdp4jNN1vHk2Ku8TPfWzSmNPylV2QEtLUHzPog.webp">
+        </div>
+    </div>
+
+    <h5>
+        사진 출처 : <a href="https://namu.wiki/w/%EB%B6%84%EB%A5%98:%EC%9D%B8%EC%82%AC%EC%9D%B4%EB%93%9C%20%EC%95%84%EC%9B%83%20%EC%8B%9C%EB%A6%AC%EC%A6%88/%EB%93%B1%EC%9E%A5%EC%9D%B8%EB%AC%BC" target="_blank">나무위키</a>
+
+    </h5>
+    
+
+
+</body>
+</html>
