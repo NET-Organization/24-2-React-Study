@@ -1,0 +1,16 @@
+body {
+    font-size: 20px;
+    background-color: rgb(246, 241, 179);
+}
+
+#hi {
+    color:darkgreen;
+    background-color: aliceblue;
+}
+#list {
+    color:rgba(131, 97, 11, 0.808);
+    background-color: floralwhite;
+}
+#highlight {
+    color:crimson
+}
