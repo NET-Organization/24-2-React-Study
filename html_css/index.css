@@ -1,0 +1,191 @@
+@font-face {
+    font-family: 'S-CoreDream-3Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.mainTitle
+{
+    font-size: 130px;
+    font-family: 'S-CoreDream-3Light';
+    background: linear-gradient(to top, #2bf7f4 0%, #682bf7 100%);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    margin-bottom: 20px;
+}
+
+p
+{
+    font-family: 'S-CoreDream-3Light';
+}
+
+.intro
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.explanation
+{
+    font-size: 20px;
+    font-family: 'S-CoreDream-3Light';
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.contents
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    --HTML: linear-gradient(to left, #f77d2b 0%, #ea5358 100%);
+    --CSS: linear-gradient(to left, #2b8ef7 0%, #2a48dc 100%);
+    --JS: linear-gradient(to left, #e6f72b 0%, #ff9d00 100%);
+}
+
+.card
+{
+    width: 190px;
+    height: 254px;
+    padding: 5px;
+    border-radius: 1rem;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+
+}
+
+.card:nth-child(1){background: var(--HTML);}
+.card:nth-child(2){background: var(--CSS);}
+.card:nth-child(3){background: var(--JS);}
+
+.card::after
+{
+    position: absolute;
+    content: "";
+    top:30px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    transform: scale(0.8);
+    filter: blur(25px);
+    transition: opacity .5s;
+}
+
+.card:nth-child(1)::after{background: var(--HTML);}
+.card:nth-child(2)::after{background: var(--CSS);}
+.card:nth-child(3)::after{background: var(--JS);}
+
+.card-info
+{
+    --background: #181818;
+    background: var(--background);
+    color: transparent;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    border-radius: .7rem;
+}
+
+.theme
+{
+    position: absolute;
+    font-size: 25px;
+}
+
+.card:nth-child(1) .theme {color: #f77d2b;} 
+.card:nth-child(2) .theme {color: #2b8ef7;}
+.card:nth-child(3) .theme {color: #e6f72b;}
+
+.card:hover:nth-child(1) .theme {color: transparent; transition: 0.5s;} 
+.card:hover:nth-child(2) .theme {color: transparent; transition: 0.5s;}
+.card:hover:nth-child(3) .theme {color: transparent; transition: 0.5s;}
+
+.card .title 
+{
+    margin-top: -15px;
+    font-weight: bold;
+    letter-spacing: .1em;
+}
+
+.plusButton
+{
+    font-size: 30px;
+    margin-top: 15px;
+    color: transparent;
+    background: transparent;
+    border-radius: 10px;
+    border-color: transparent;
+}
+
+.card .detail
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card .detail p
+{
+    margin-bottom: 0px;
+}
+
+.card:hover
+{
+    width: 400px;
+    transition: 1s;
+}
+
+.card:not(:hover)
+{
+    transition: 0.5s ease-out;
+}
+
+.card:hover::after 
+{
+    opacity: 0;
+}
+   
+.card:hover .card-info 
+{
+    color:#2bf7f4;
+    transition: color 1s;
+    transition-delay: 0.5s;
+}
+
+.card:hover .plusButton
+{
+    transition: color 1s;
+    transition-delay: 0.5s;
+}
+
+.card:hover:nth-child(1) .card-info {color: #f77d2b;} 
+.card:hover:nth-child(2) .card-info {color: #2b8ef7;}
+.card:hover:nth-child(3) .card-info {color: #e6f72b;}
+
+.card:hover:nth-child(1) .plusButton {color: #f77d2b;} 
+.card:hover:nth-child(2) .plusButton {color: #2b8ef7;}
+.card:hover:nth-child(3) .plusButton {color: #e6f72b;}
+
+.card:hover .plusButton:hover
+{
+    transform: scale(1.4);
+    cursor: pointer;
+} 
