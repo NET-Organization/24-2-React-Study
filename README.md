@@ -1,6 +1,6 @@
 # ⭐️24-2-React-Study⭐️
 
-## 👥 스터디원 (추후 추가 예정)
+## 👥 스터디장, 스터디원
 |<img src="https://avatars.githubusercontent.com/u/111039206?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/163392169?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/97785040?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/167513319?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/174453342?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/168816030?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/164979565?v=4" width="70"/>|<img src="https://avatars.githubusercontent.com/u/144436027?v=4" width="70"/>|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |[장영주](https://github.com/youngju6143)|[김다은](https://github.com/rlaekdms901)|[박신후](https://github.com/tlsgnvkr)|[서영채](https://github.com/seoyc0219)|[신윤호](https://github.com/syh1e)|[오승연](https://github.com/SeungyeonO)|[이예린](https://github.com/yeyerinrin)|[전지원](https://github.com/jivvonC)|
