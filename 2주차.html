@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href = '2주차.css' rel = 'stylesheet' />
+    <style>
+        #buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight : bold;
+        }
+    </style>    
+    <script>
+        function showAlert() {
+            alert("누르지말라구");
+        }
+    </script>
+</head>
+<body>
+    <h1 id = "number">0</h1>
+    <button id = "increase">+</button>
+    <button id = "decrease">-</button>
+    <button onClick="showAlert()">누르지마숑</button> 
+    <script src = "2주차.js"> 
+    </script>
+</body>
+</html>
