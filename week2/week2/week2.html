@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[REACT] 2주차 과제 - 김다은</title>
+    <style>
+
+        .title-box {
+            width: 1850px;
+            height: 50px;
+            border: 1.5px solid black;
+            margin: 20px;
+            display: flex;
+            justify-content: center; 
+            align-items: center;      
+            text-align: center;      
+        }
+
+        .box{
+            background-color: white;
+            padding:20px;
+            width: 300px;
+            margin:0auto;
+        }
+
+        h2 {
+            font-size: 50px;
+        }
+
+        label {
+            font-size: 20px; 
+            display: inline-block; /* 같은 줄에 배치 */
+            margin: 20px 0; 
+        }
+
+        .submit-button {
+            padding: 10px 20px; 
+            font-size: 18px; 
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px; 
+            color: purple; 
+        }
+
+        #answerButton {
+            margin-left: 30px; 
+            padding: 10px 20px; 
+            font-size: 18px; 
+            cursor: pointer; 
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="title-box">
+        <h1>24-2-REACT-STUDY 2주차</h1>
+    </div>
+
+    <div class="box">
+        <form id="ANIMAL">
+            <h2>animal<img src="https://i.pinimg.com/originals/b2/ac/2f/b2ac2fe3435aab84a0c8d589d220d561.gif" style="width: 100px"></h1>
+            <img src="C:\Users\rlaek\OneDrive\바탕 화면\picture\IMG_6495.jpeg" style="width: 500px;">
+            <label>
+                <input type="radio" name="ANIMAL" value="CAT"> CAT
+            </label>
+            <label>
+                <input type="radio" name="ANIMAL" value="DOG"> DOG
+            </label>
+            <input type="button" value="제출" onclick="showResult()">
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+    <button id="answerButton">ANSWER</button>
+
+    <script>
+        function showResult() {
+            const form = document.getElementById('ANIMAL');
+            const selectedAnimal = form.ANIMAL.value; // 선택된 동물 가져오기
+            const resultDiv = document.getElementById('result');
+
+            if (selectedAnimal) {
+                resultDiv.textContent = `선택한 동물: ${selectedAnimal}`;
+            } else {
+                resultDiv.textContent = '동물을 선택해주세요.';
+            }
+        }
+        const button = document.querySelector("button");
+        button.addEventListener("click", function() {
+            alert("정답은 CAT 입니다!");
+        });
+    </script>
+
+    
+        
+
+
+</body>
+</html>
