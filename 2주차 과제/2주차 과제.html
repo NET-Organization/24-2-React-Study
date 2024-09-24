@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <h3>ID</h3>
+    <input type="text" id="id" size="20" />
+    <h3>Password</h3>
+    <input type="text" id="password" size="20" type="password"/>
+    <br><br>
+    <button onclick="clickedLogin()">Login</button>
+    <br><br>
+    <button onclick="clickedSignUp()">Sign Up?</button>
+    <br><br>
+    <a href="#" target="_self">forgot ID?</a>
+    |
+    <a href="#" target="_self">forgot Password?</a>
+</body>
+<script>
+    function clickedLogin() {
+        const id = document.getElementById('id').value;
+        const password = document.getElementById('password').value;
+
+        if(id!="" && password!="") {
+            alert("Hello World");
+        }
+        else if(id=="") {
+            alert("Please enter your ID.");
+        }
+        else if(password=="") {
+            alert("Please enter your password.");
+        }
+    }
+
+    function clickedSignUp() {
+        alert("This feature is not currently supported.");
+    }
+</script>
+</html>
