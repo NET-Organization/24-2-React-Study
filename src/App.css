@@ -1,0 +1,25 @@
+/* src/App.css */
+.App {
+    text-align: center;
+}
+
+.header-image {
+    width: 100%; /* 이미지를 화면 너비에 맞춤 */
+    height: auto; /* 비율 유지 */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 박스 */
+    gap: 16px; /* 박스 간의 간격 */
+    padding: 20px;
+}
+
+.pokemon-card {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f9f9f9;
+
+}
