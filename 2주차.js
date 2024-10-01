@@ -11,7 +11,3 @@ decrease.onclick = () => {
     const current = parseInt(number.innerText, 10);
     number.innerText = current -1
 }
-
-breakutton.onclick = () => {
-    
-}

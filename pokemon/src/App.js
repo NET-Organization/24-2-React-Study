@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import React from 'react';
+import dummyData from './dummyData';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className = "App">
+      <header>
+        <img src='./header.png' alt='Header' className='header-image' />
       </header>
+      <main className="grid-container">
+        {dummyData.map((pokemon, index) => (
+          <div className='pokemon-card' key={index}>
+            <h2>{pokemon.title}</h2>
+            <p>{pokemon.content}</p>
+            <p>{pokemon.type}</p>
+          </div>
+        ))}
+      </main>
     </div>
   );
 }
