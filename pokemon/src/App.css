@@ -12,37 +12,37 @@
     display: grid;
 
     grid-template-columns: 2fr, 3fr;
-    grid-column: 1 / 3;
-    grid-template-rows: 3fr, 2fr
-    
+    grid-template-rows: 3fr, 2fr;
+    grid-template-areas: "title content"
+                         "title type";
 }
 
 .title {
-    display: flex;
+    display: grid;
+    grid-area: title;
 
-    justify-content: center;
-    align-content: center;
+    place-items: center;
 
-    background-color: #cccccc;
+    background-color: #eeeeee;
     color: #000000;
 }
 
 .content {
-    display: flex;
+    display: grid;
+    grid-area: content;
 
-    justify-content: center;
-    align-content: center;
+    place-items: center;
 
     background-color: #cccccc;
     color: #000000;
 }
 
 .type {
-    display: flex;
+    display: grid;
+    grid-area: type;
     
-    justify-content: center;
-    align-content: center;
+    place-items: center;
 
-    background-color: #cccccc;
-    color: #000000;
+    background-color: #aaaaaa;
+    color: #ffffff;
 }

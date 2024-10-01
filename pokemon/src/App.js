@@ -13,9 +13,9 @@ function InnerItems(props) {
   const outputData = dummyData[Number(props.num)];
   
   return (
-    <div>
+    <div class="child">
       <div class="title"><h1>{outputData.title}</h1></div>
-      <div class="content"><p>{outputData.content}</p></div>
+      <div class="content"><h2>{outputData.content}</h2></div>
       <div class="type"><h4>{outputData.type}</h4></div>
     </div>
   );
