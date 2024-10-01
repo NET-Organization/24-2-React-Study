@@ -1,0 +1,21 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(4,500px);
+    grid-template-rows: auto;
+    gap: 40px;
+    padding: 40px;
+    justify-content: center;
+}
+
+.grid-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #cccccc;
+    font-size: 20px;
+    text-align: center;
+    background-color: rgb(236, 236, 236);
+    font-weight: bold;
+}

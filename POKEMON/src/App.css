@@ -1,0 +1,4 @@
+.App img {
+    width: 100vw; /* 뷰포트 너비에 맞춤 */
+    object-fit: cover; /* 비율을 유지하며 자르기 */
+}
