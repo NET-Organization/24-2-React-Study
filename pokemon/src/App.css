@@ -1,0 +1,48 @@
+.parent {
+    display: grid;
+
+    grid-template-columns: repeat(4, 416px);
+    justify-content: space-evenly;
+
+    grid-template-rows: repeat(6, 234px);
+    row-gap: 30px;
+}
+
+.child {
+    display: grid;
+
+    grid-template-columns: 2fr, 3fr;
+    grid-column: 1 / 3;
+    grid-template-rows: 3fr, 2fr
+    
+}
+
+.title {
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+
+    background-color: #cccccc;
+    color: #000000;
+}
+
+.content {
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+
+    background-color: #cccccc;
+    color: #000000;
+}
+
+.type {
+    display: flex;
+    
+    justify-content: center;
+    align-content: center;
+
+    background-color: #cccccc;
+    color: #000000;
+}
