@@ -1,34 +1,55 @@
-import './App.css';
+import React, { useState } from 'react';
+import './styles/App.css';
 import dummyData from './dummyData';
+import { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './components/theme';
+import { ThemeModeButton } from './components/toggle';
+import { SearchBar } from './components/searchBar'
+import { DataComponent, Home, NavigationBar } from './components/component';
 
 
 
 function App() {
+  //search 기능 구현
+  const [search, setSearch] = useState("");
+  const onChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const filterType = dummyData.filter(p => {
+    return p["type"].includes(search);
+  })
+
+  //다크모드 구현 - state
+  const [themeMode, setThemeMode] = useState(lightTheme);
+  const theme = themeMode === "lightTheme" ? lightTheme : darkTheme;
+
+  const toggleTheme = () => {
+    themeMode === "lightTheme" ? setThemeMode("darkTheme") : setThemeMode("lightTheme")
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={process.env.PUBLIC_URL + '/header.png'} className="App-logo" alt="header" />
+    <ThemeProvider theme={theme}>
+      <Home>
+        <header className="App-header">
+          <img src='./header.png' className="App-logo" alt="header" />
+          <NavigationBar>
+            <SearchBar search={search} onChange={onChange} />
+            <ThemeModeButton toggleTheme={toggleTheme} themeMode={themeMode}/>
+          </NavigationBar>
+        </header>
 
-        <div class="content">
-          <div class="content-boxes">
-            {dummyData.map((data, index) => (
-              <DataComponent key={index} data={data}/>
-            ))}
-          </div>
+        <div className="Content">
+          {filterType.map((data, index) => (
+            <DataComponent key={index} data={data}/>
+          ))}
         </div>
-
-      </header>
-    </div>
+      </Home>
+    </ThemeProvider>
   );
 };
 
-const DataComponent = (props) => {
-  const data = props.data;
-  return <div class="pokemon-box">
-    <p>{data["title"]}</p>
-    <p>{data["content"]}</p>
-    <p>{data["type"]}</p>
-  </div>;
-};
+
 
 export default App;
