@@ -22,10 +22,12 @@ export const NavigationBar = styled.div`
 
 export const DataComponent = (props) => {
     const data = props.data;
+    const types = data.type;
+
     return <PokemonBox>
       <p>{data["title"]}</p>
-      <p>{data["content"]}</p>
-      <p>{data["type"]}</p>
+      <img src = {data["sprite"]}/>
+      <p>{types.map(type => (<span>{type} </span>))}</p>
     </PokemonBox>;
   };
 

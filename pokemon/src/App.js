@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './styles/App.css';
-import dummyData from './dummyData';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './components/theme';
 import { ThemeModeButton } from './components/toggle';
 import { SearchBar } from './components/searchBar'
 import { DataComponent, Home, NavigationBar } from './components/component';
+import { PokemonData } from './pokemonData';
 
 
 
@@ -16,12 +16,18 @@ function App() {
     setSearch(e.target.value);
   }
 
-  const filterType = dummyData.filter(p => {
-    return p["type"].includes(search);
+  const pokemonData = PokemonData();
+  const filterType = pokemonData.filter(p => {
+    for(const type of p["type"])
+    {
+      if(type.includes(search))
+        return true;
+    }
+    return false;
   })
 
   //다크모드 구현 - state
-  const [themeMode, setThemeMode] = useState(lightTheme);
+  const [themeMode, setThemeMode] = useState("lightTheme");
   const theme = themeMode === "lightTheme" ? lightTheme : darkTheme;
 
   const toggleTheme = () => {
@@ -49,7 +55,6 @@ function App() {
     </ThemeProvider>
   );
 };
-
 
 
 export default App;
