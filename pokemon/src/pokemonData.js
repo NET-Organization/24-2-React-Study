@@ -9,7 +9,7 @@ export const PokemonData = () => {
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
-              const res = await axios.get(`${baseURL}/pokemon?offset=0&limit=20`);
+              const res = await axios.get(`${baseURL}/pokemon?offset=0&limit=100`);
               const pokemonList = res.data.results; 
         
               const allPokemonData = [];

@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
 export const Home = styled.div`
     text-align: center;
     min-height: 100vh;
+    width: 100%;
     background: ${({theme}) => theme.colors.colorBg};
  
 `;
@@ -21,12 +23,13 @@ export const NavigationBar = styled.div`
 `;
 
 export const DataComponent = (props) => {
+    const navigate = useNavigate();
     const data = props.data;
     const types = data.type;
 
-    return <PokemonBox>
+    return <PokemonBox onClick={() => {navigate('/detail', {state: {detail: data}})}}>
       <p>{data["title"]}</p>
-      <img src = {data["sprite"]}/>
+      <img src = {data["sprite"]} alt={data["title"]}/>
       <p>{types.map(type => (<span>{type} </span>))}</p>
     </PokemonBox>;
   };
