@@ -118,3 +118,28 @@
     margin-right: 7px;
     margin-top: 7px;
 }
+
+/* 페이지네이션을 가로로 정렬하기 위한 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination li a {
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.pagination li.active a {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
