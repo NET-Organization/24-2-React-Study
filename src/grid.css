@@ -1,0 +1,24 @@
+.grid-container {
+  display: grid;
+  margin: 60px;
+  margin-top: 150px;
+  grid-template-columns: repeat(4, 20%);
+  grid-template-rows: repeat(6, 35%);
+  row-gap: 30px;
+  column-gap: 40px;
+  justify-content: center;
+  min-height: 612px;
+}
+
+.grid-item {
+  border: 1px solid lightgray;
+  background-color: whitesmoke;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.grid-item span {
+  font-size: 20px;
+}

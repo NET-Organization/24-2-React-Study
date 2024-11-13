@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.image-container {
+  position: relative; /* 이미지 내부에서 버튼을 절대적으로 배치하려면 반드시 설정해야 함 */
+  display: inline-block;
+}
+
+/* 이미지 스타일 */
+.styleImg {
+  width: 100%;
+  height: auto;
+  display: block; /* 이미지 밑에 요소가 올 수 있도록 설정 */
+}
+
+/* 기본 배경 색 */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* dark 모드 시 색 변경 */
+body.dark-mode {
+  background-color: rgb(43, 43, 43);
+  color: white;
+}
+
+/* grid 색 변경 */
+body.dark-mode .grid-item {
+  background-color: #696969;
+}
