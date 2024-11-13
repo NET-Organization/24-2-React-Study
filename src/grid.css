@@ -1,13 +1,16 @@
 .grid-container {
   display: grid;
-  margin: 60px;
+  margin-left: 130px;
+  margin-right: 130px;
   margin-top: 150px;
-  grid-template-columns: repeat(4, 20%);
-  grid-template-rows: repeat(6, 35%);
-  row-gap: 30px;
-  column-gap: 40px;
+  grid-template-columns: repeat(
+    4,
+    minmax(100px, 400px)
+  ); /* 각 칸이 동일한 크기를 유지하도록 설정 */
+  grid-auto-rows: minmax(350px auto);
+  row-gap: 100px;
+  column-gap: 60px;
   justify-content: center;
-  min-height: 612px;
 }
 
 .grid-item {
@@ -17,8 +20,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 130%;
+  width: 80%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  border-radius: 30px;
+  box-shadow: 5px 5px 3px rgb(177, 177, 177);
 }
 
 .grid-item span {
   font-size: 20px;
+}
+
+.grid-item img {
+  width: 200px;
+  padding-left: 45px;
 }

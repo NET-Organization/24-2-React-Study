@@ -2,10 +2,6 @@
   padding: 0;
   margin: 0;
 }
-.image-container {
-  position: relative; /* 이미지 내부에서 버튼을 절대적으로 배치하려면 반드시 설정해야 함 */
-  display: inline-block;
-}
 
 /* 이미지 스타일 */
 .styleImg {

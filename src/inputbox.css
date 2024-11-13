@@ -1,6 +1,11 @@
+/* 이미지를 기준으로 위치 이동 */
+.image-container {
+  position: relative;
+  display: inline-block;
+}
 .wave-group {
   position: absolute; /* 또는 relative로 변경 가능 */
-  bottom: 745px; /* 상단으로 100px 이동 */
+  top: 380px; /* 상단으로 100px 이동 */
   right: 750px; /* 왼쪽으로 50px 이동 */
   /* 여기서 top과 left 값은 원하는 위치로 조정 */
 }

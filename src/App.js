@@ -12,7 +12,6 @@ function App() {
 
   const onChange = () => setDarkmode((current) => !current);
   const onChange2 = (event) => setInputbox(event.target.value);
-
   useEffect(() => {
     if (DarkmodeOn) {
       document.body.classList.add('dark-mode');
@@ -24,6 +23,7 @@ function App() {
   const filterItem = InputBox
     ? dummy.filter((item) => item.type.includes(InputBox.trim()))
     : dummy;
+
   return (
     <>
       <div className="image-container">
@@ -32,10 +32,10 @@ function App() {
         {/* grid 나누기 */}
         <div className="grid-container">
           {filterItem.map((item) => (
-            <div className="grid-item" key={item.title}>
+            <div className="grid-item card" key={item.title}>
+              <img src={item.sprite} alt={`${item.title} sprite`}></img>
               <h1>{item.title}</h1>
-              <p>{item.content}</p>
-              <span>{item.type}</span>
+              <span className="type-badge">{item.type}</span>
             </div>
           ))}
         </div>
