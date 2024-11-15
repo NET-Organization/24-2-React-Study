@@ -26,3 +26,30 @@ body.dark-mode {
 body.dark-mode .grid-item {
   background-color: #696969;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-top: 150px;
+  margin-bottom: 30px;
+}
+.pagination li {
+  margin: 10px;
+}
+.pagination li a {
+  text-decoration: none;
+  color: black;
+  padding: 10px 14px;
+  border-radius: 60px;
+}
+
+.pagination li a:hover {
+  background-color: grey;
+  color: white;
+}
+
+.pagination li.active a {
+  background-color: black;
+  color: white;
+}

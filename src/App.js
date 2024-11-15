@@ -5,13 +5,33 @@ import './grid.css';
 import './button.css';
 import './inputbox.css';
 import { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
+import PokemonDetail from './pokemondetail.js';
+import Pagination from 'react-js-pagination';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const [DarkmodeOn, setDarkmode] = useState(false);
   const [InputBox, setInputbox] = useState('');
+  const navigate = useNavigate(); // navigate 함수 가져오기
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
+  const itemsPerPage = 20; //페이지당 아이템 수
+  const location = useLocation();
 
   const onChange = () => setDarkmode((current) => !current);
   const onChange2 = (event) => setInputbox(event.target.value);
+
+  useEffect(() => {
+    if (location.state?.currentPage) {
+      setCurrentPage(location.state.currentPage); // 이전 페이지 상태 복원
+    }
+  }, [location.state]);
+
   useEffect(() => {
     if (DarkmodeOn) {
       document.body.classList.add('dark-mode');
@@ -24,6 +44,29 @@ function App() {
     ? dummy.filter((item) => item.type.includes(InputBox.trim()))
     : dummy;
 
+  const PokemonClick = (pokemon) => {
+    navigate('/pokemon-detail', { state: { pokemon, currentPage } }); // currentPage 전달
+  };
+
+  // 포켓몬을 click 했을 때 상세페이지로 이동할 수 있게 PokemonClick함수를 만들었음.
+  // navigate함수를 호출해서 경로로 이동하고 ,
+  //두 번째 인자로 전달하여 클릭한 포켓몬의 정보를 상세 페이지에서 사용할 수 있게 함.
+
+  const totalItemsCount = filterItem.length;
+
+  // 현재 페이지에 해당하는 포켓몬 데이터 가져오기
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentPokemons = filterItem.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  // 페이지 변경 함수 & 스크롤이 제일 위로 가게
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber); // 현재 페이지 상태 업데이트
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <div className="image-container">
@@ -31,15 +74,29 @@ function App() {
 
         {/* grid 나누기 */}
         <div className="grid-container">
-          {filterItem.map((item) => (
-            <div className="grid-item card" key={item.title}>
+          {currentPokemons.map((item) => (
+            <div
+              className="grid-item card"
+              key={item.title}
+              onClick={() => PokemonClick(item)}
+            >
               <img src={item.sprite} alt={`${item.title} sprite`}></img>
               <h1>{item.title}</h1>
               <span className="type-badge">{item.type}</span>
             </div>
           ))}
         </div>
-        <div></div>
+        <Pagination
+          activePage={currentPage}
+          itemsCountPerPage={itemsPerPage}
+          totalItemsCount={totalItemsCount}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+          innerClass="pagination" // 전체 UL에 적용될 클래스
+          itemClass="page-item" // 각 LI에 적용될 클래스
+          linkClass="page-link" // 각 A 태그에 적용될 클래스
+        />
+
         {/* darkmode button */}
         <div className="btn-container">
           <svg
@@ -116,5 +173,14 @@ function App() {
     </>
   );
 }
-
-export default App;
+function AppWithRouter() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/pokemon-detail" element={<PokemonDetail />} />
+      </Routes>
+    </Router>
+  );
+}
+export default AppWithRouter;

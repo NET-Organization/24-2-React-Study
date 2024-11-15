@@ -26,6 +26,7 @@
   word-wrap: break-word;
   border-radius: 30px;
   box-shadow: 5px 5px 3px rgb(177, 177, 177);
+  cursor: grab;
 }
 
 .grid-item span {

@@ -1,0 +1,49 @@
+* {
+  text-align: center;
+}
+.styleLi {
+  list-style: none;
+}
+.stylediv {
+  display: flex; /* Flexbox 사용 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  justify-content: center; /* 수직 중앙 정렬 */
+  align-items: center; /* 수평 중앙 정렬 */
+  border: 1px solid lightgray;
+  background-color: whitesmoke;
+  width: 350px;
+  height: 630px;
+  margin: 60px auto; /* 위쪽 여백 60px, 자동으로 수평 중앙 정렬 */
+  border-radius: 30px;
+  box-shadow: 5px 5px 3px rgb(177, 177, 177);
+}
+.title {
+  color: rgb(29, 29, 126);
+  margin-bottom: 10px;
+}
+img {
+  width: 300px;
+}
+.type {
+  margin: 6px;
+  color: rgb(35, 33, 146);
+}
+.stylep {
+  padding-top: 1px;
+  padding-bottom: 4px;
+}
+
+.styleLi {
+  line-height: 23px;
+}
+
+.styleHr1 {
+  border: 1px solid rgb(148, 148, 148);
+  width: 100%;
+}
+
+.styleHr2 {
+  margin: 4px;
+  border: 1px solid rgb(148, 148, 148);
+  width: 100%;
+}
