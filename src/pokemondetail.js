@@ -1,10 +1,14 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './pokemondetail.css';
 //url의 위치 정보를 가져오는데 사용
 
 function PokemonDetail() {
   const location = useLocation();
-  const { pokemon } = location.state || {};
+  const { pokemon, currentPage } = location.state || {};
+  const navigate = useNavigate();
+  const BackPage = () => {
+    navigate('/', { state: { currentPage } });
+  };
 
   return (
     <div>
@@ -27,6 +31,9 @@ function PokemonDetail() {
               ))}
             </ul>
           </div>
+          <button onClick={BackPage} className="backButton">
+            BACK
+          </button>
         </>
       ) : null}
     </div>

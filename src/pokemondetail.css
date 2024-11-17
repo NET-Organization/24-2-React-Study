@@ -13,7 +13,7 @@
   background-color: whitesmoke;
   width: 350px;
   height: 630px;
-  margin: 60px auto; /* 위쪽 여백 60px, 자동으로 수평 중앙 정렬 */
+  margin: 50px auto; /* 위쪽 여백 60px, 자동으로 수평 중앙 정렬 */
   border-radius: 30px;
   box-shadow: 5px 5px 3px rgb(177, 177, 177);
 }
@@ -46,4 +46,25 @@ img {
   margin: 4px;
   border: 1px solid rgb(148, 148, 148);
   width: 100%;
+}
+
+.backButton {
+  background-color: rgb(231, 231, 231);
+  padding: 15px;
+  border-radius: 20px;
+  border: 1px solid rgb(163, 163, 163);
+  font-size: 20px;
+  box-shadow: 5px 5px 3px rgb(177, 177, 177);
+  font-weight: 600;
+  cursor: grab;
+}
+
+/* dark 모드 시 색 변경 */
+body.dark-mode .stylediv {
+  background-color: #696969;
+}
+
+.backButton:hover {
+  background-color: rgb(19, 42, 107);
+  color: white;
 }

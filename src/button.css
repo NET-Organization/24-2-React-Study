@@ -55,7 +55,7 @@ label {
 
 .btn-color-mode-switch > label.btn-color-mode-switch-inner:after {
   content: attr(data-off);
-  width: 70px;
+  width: 50%;
   height: 16px;
   background: #fff;
   border-radius: 26px;
