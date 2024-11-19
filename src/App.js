@@ -1,252 +1,197 @@
-import './App.css';
 import React, { useState, useEffect } from 'react';
-import titleImage from './title.png';
-import styled from 'styled-components';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Routes, useNavigate, useParams } from 'react-router-dom';
-
-const baseURL = `https://pokeapi.co/api/v2`;
-
-const Title = styled.div`
-  display: grid;
-  grid-area: title;
-  place-items: center;
-  background-color: ${(props) => props.backgroundColor};
-  color: ${(props) => (props.darkTheme ? '#FFFFFF' : '#000000')};
-`;
-
-const Content = styled.div`
-  display: grid;
-  grid-area: content;
-  place-items: center;
-  background-color: ${(props) => (props.darkTheme ? '#555555' : '#aaaaaa')};
-  color: ${(props) => (props.darkTheme ? '#FFFFFF' : '#000000')};
-`;
-
-const Type = styled.div`
-  display: grid;
-  grid-area: type;
-  place-items: center;
-  background-color: ${(props) => (props.darkTheme ? '#777777' : '#888888')};
-  color: ${(props) => (props.darkTheme ? '#FFFFFF' : '#000000')};
-`;
-
-function Image() {
-  return <img src={titleImage} width="100%" alt="pokemon page title" />;
-}
-
-function Button({ onToggle }) {
-  return (
-    <div className="container">
-      <input
-        type="checkbox"
-        className="checkbox"
-        id="checkbox"
-        onChange={onToggle}
-      />
-      <label className="switch" htmlFor="checkbox">
-        <span className="slider"></span>
-      </label>
-    </div>
-  );
-}
-
-function Search({ onSearch }) {
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      onSearch(query.trim());
-    }, 300);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [query, onSearch]);
-
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
-
-  return (
-    <form className="form">
-      <label htmlFor="search">
-        <input
-          className="input"
-          type="text"
-          placeholder="Search pokemon"
-          id="search"
-          onChange={handleInputChange}
-          value={query}
-        />
-      </label>
-    </form>
-  );
-}
-
-function InnerItems({ num, darkTheme, pokemonData }) {
-  const outputData = pokemonData[Number(num)];
-  const navigate = useNavigate();
-
-  const handleImageClick = () => {
-    navigate(`/pokemon/${num}`);
-  };
-
-  return (
-    <div className="child" onClick={handleImageClick} style={{ cursor: 'pointer' }}>
-      <Title darkTheme={darkTheme} backgroundColor={outputData.backgroundColor}>
-        <img src={outputData.frontSprite} width="100%" alt={outputData.title} />
-      </Title>
-      <Content darkTheme={darkTheme}>
-        <h2>{outputData.title}</h2>
-      </Content>
-      <Type darkTheme={darkTheme}>
-        <p>{outputData.type.join(', ')}</p>
-      </Type>
-    </div>
-  );
-}
-
-function MainTable({ darkTheme, searchQuery, pokemonData, currentPage, itemsPerPage }) {
-  const filteredData = pokemonData.filter((item) =>
-    item.title.includes(searchQuery)
-  );
-
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const endIdx = startIdx + itemsPerPage;
-  const currentData = filteredData.slice(startIdx, endIdx);
-
-  return (
-    <div className="parent">
-      {currentData.map((_, index) => (
-        <InnerItems key={index} num={index + startIdx} darkTheme={darkTheme} pokemonData={pokemonData} />
-      ))}
-    </div>
-  );
-}
-
-
-function PokemonDetail({ pokemonData }) {
-  const { id } = useParams();
-  const pokemon = pokemonData[id];
-  const navigate = useNavigate();
-
-  if (!pokemon) return <p>Loading...</p>;
-
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>{pokemon.title}</h1>
-      <img src={pokemon.frontSprite} alt={pokemon.title} width="200px" />
-      <img src={pokemon.backSprite} alt={pokemon.title} width="200px" />
-      <p>Type: {pokemon.type.join(', ')}</p>
-      <p>Background Color: {pokemon.backgroundColor}</p>
-      <button onClick={() => navigate('/')}>Back to Pokémon List</button>
-    </div>
-  );
-}
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import PokemonDetail from './Components/PokemonDetail';
+import ItemsPerPage from './Components/ItemsPerPage';
+import Search from './Components/Search';
+import Button from './Components/Button';
+import Image from './Components/Image';
 
 function App() {
   const [pokemonData, setPokemonData] = useState([]);
-  const [darkTheme, setDarkTheme] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 20;
+  const [darkTheme, setDarkTheme] = useState(false);
+  const [selectedPokemonId, setSelectedPokemonId] = useState(null);
 
   useEffect(() => {
-    const fetchPokemon = async () => {
-      try {
-        const res = await axios.get(`${baseURL}pokemon?offset=0&limit=200`);
-        const pokemonList = res.data.results;
+    const fetchPokemonData = async () => {
+      const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=300');
+      const data = await response.json();
+      const detailedData = await Promise.all(
+        data.results.map(async (pokemon) => {
+          const res = await fetch(pokemon.url);
+          const details = await res.json();
+          const speciesRes = await fetch(details.species.url);
+          const speciesDetails = await speciesRes.json();
 
-        const allPokemonData = await Promise.all(
-          pokemonList.map(async (pokemon) => {
-            const speciesRes = await axios.get(pokemon.url);
-            const speciesData = await axios.get(speciesRes.data.species.url);
+          const genderRate = speciesDetails.gender_rate;
 
-            const koreanName = speciesData.data.names?.find(
-              (name) => name.language.name === 'ko'
-            );
-
-            const types = speciesRes.data.types.map((type) => type.type.name);
-            const frontSprite = speciesRes.data.sprites.front_default;
-            const backSprite = speciesRes.data.sprites.back_default;
-
-            const genderRate = speciesData.data.gender_rate;
-            let backgroundColor;
-            if (genderRate === -1) {
-              backgroundColor = '#D3D3D3';
-            } else if (genderRate > 0) {
-              backgroundColor = '#FFCCCB';
-            } else {
-              backgroundColor = '#ADD8E6';
-            }
-
-            return {
-              title: koreanName?.name || pokemon.name,
-              frontSprite: frontSprite,
-              backSprite: backSprite,
-              type: types,
-              backgroundColor: backgroundColor,
-            };
-          })
-        );
-
-        setPokemonData(allPokemonData);
-      } catch (err) {
-        console.log(err);
-      }
+          return {
+            id: details.id,
+            title: details.name,
+            frontSprite: details.sprites.front_default,
+            backSprite: details.sprites.back_default,
+            type: details.types.map((t) => t.type.name),
+            genderRate: genderRate,
+          };
+        })
+      );
+      setPokemonData(detailedData);
     };
 
-    fetchPokemon();
+    fetchPokemonData();
   }, []);
 
-  const handleToggle = () => {
-    setDarkTheme((prevTheme) => !prevTheme);
-  };
+  const filteredPokemon = pokemonData.filter((pokemon) =>
+    pokemon.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleSearch = (query) => {
     setSearchQuery(query);
+    setCurrentPage(1);
   };
 
-  const handlePageChange = (direction) => {
-    setCurrentPage((prevPage) =>
-      direction === 'next' ? prevPage + 1 : Math.max(prevPage - 1, 1)
-    );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedPokemon = filteredPokemon.slice(startIndex, startIndex + itemsPerPage);
+
+  const nextPage = () => {
+    if (currentPage * itemsPerPage < filteredPokemon.length) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
-  document.body.style.backgroundColor = darkTheme ? '#000000' : '#FFFFFF';
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const toggleDarkMode = () => {
+    setDarkTheme(!darkTheme);
+  };
+
+  const getCardColor = (pokemonId, genderRate) => {
+    if (pokemonId === selectedPokemonId) {
+      return darkTheme ? '#C89F77' : '#FFD700';
+    }
+
+    if (genderRate === -1) {
+      return darkTheme ? '#404040' : '#D3D3D3';
+    } else if (genderRate > 0) {
+      return darkTheme ? '#b57272' : '#FFCCCB';
+    } else {
+      return darkTheme ? '#336699' : '#ADD8E6';
+    }
+  };
+
+  const handleCardClick = (id) => {
+    if (id === selectedPokemonId) {
+      setSelectedPokemonId(null);
+    } else {
+      setSelectedPokemonId(id);
+    }
+  };
 
   return (
     <Router>
-      <div>
-        <Image />
-        <Button onToggle={handleToggle} />
-        <Search onSearch={handleSearch} />
+      <div style={{ backgroundColor: darkTheme ? '#121212' : '#f0f0f0', color: darkTheme ? '#fff' : '#000' }}>
+        <header style={{ padding: '20px', textAlign: 'center' }}>
+          <Button onToggle={toggleDarkMode} darkTheme={darkTheme} />
+          <Image />
+        </header>
+
+        <main>
+          <Search onSearch={handleSearch} />
+          <ItemsPerPage itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} darkTheme={darkTheme} />
+
+          <div
+            className="pokemon-list"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(10, 1fr)',
+              gap: '10px',
+              padding: '10px',
+            }}
+          >
+            {paginatedPokemon.map((pokemon) => (
+              <div
+                key={pokemon.id}
+                onClick={() => handleCardClick(pokemon.id)} // Set the selected Pokémon ID on card click
+                style={{
+                  backgroundColor: getCardColor(pokemon.id, pokemon.genderRate), // Color based on selection
+                  color: darkTheme ? '#fff' : '#000',
+                  padding: '10px',
+                  borderRadius: '10px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Link
+                  to={`/pokemon/${pokemon.id}`}  // Use Link for navigation to detail page
+                  style={{
+                    textDecoration: 'none',
+                    color: darkTheme ? '#fff' : '#000',
+                  }}
+                >
+                  <img
+                    src={pokemon.frontSprite}
+                    alt={pokemon.title}
+                    style={{ width: '100px', height: '100px' }}
+                  />
+                  <h4>{pokemon.title}</h4>
+                </Link>
+                <div className="types">
+                  {pokemon.type.map((type) => (
+                    <span
+                      key={type}
+                      style={{
+                        margin: '5px',
+                        color: darkTheme ? '#fff' : '#000',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="pagination" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <button onClick={prevPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span
+              style={{
+                margin: '0 15px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: darkTheme ? '#fff' : '#000',
+              }}
+            >
+              Page {currentPage}
+            </span>
+            <button
+              onClick={nextPage}
+              disabled={currentPage * itemsPerPage >= filteredPokemon.length}
+            >
+              Next
+            </button>
+          </div>
+        </main>
+
         <Routes>
-          <Route
-            path="/"
-            element={
-              <MainTable
-                darkTheme={darkTheme}
-                searchQuery={searchQuery}
-                pokemonData={pokemonData}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-              />
-            }
-          />
-          <Route
-            path="/pokemon/:id"
-            element={<PokemonDetail pokemonData={pokemonData} />}
-          />
+          {selectedPokemonId !== null && (
+            <Route
+              path="/pokemon/:id"
+              element={<PokemonDetail pokemonData={pokemonData} darkTheme={darkTheme} />}
+            />
+          )}
         </Routes>
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-          <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <span style={{ margin: '0 10px' }}>Page {currentPage}</span>
-          <button onClick={() => handlePageChange('next')} disabled={(currentPage * itemsPerPage) >= pokemonData.length}>
-            Next
-          </button>
-        </div>
       </div>
     </Router>
   );
