@@ -3,6 +3,18 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
+export const LoadingPage = styled.div`
+    text-align: center;
+    min-height: 100vh;
+    width: 100%;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+
 export const Home = styled.div`
     text-align: center;
     min-height: 100vh;
