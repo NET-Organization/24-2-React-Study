@@ -143,3 +143,16 @@
     color: white;
     border: 1px solid #4CAF50;
 }
+
+.splash-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.splash-image {
+    max-width: 300px;
+    width: 80%;
+}

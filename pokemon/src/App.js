@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import './App.css';
-//import './About.js;
 
 const baseURL = 'https://pokeapi.co/api/v2';
 
@@ -30,10 +29,24 @@ const typeTranslations = {
 
 function App() {
     const [pokemonData, setPokemonData] = useState([]);
-    const [selectedTypes, setSelectedTypes] = useState([]);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [selectedTypes, setSelectedTypes] = useState(() => {
+        const storedFilters = localStorage.getItem('selectedTypes');
+        return storedFilters ? JSON.parse(storedFilters) : [];
+    });
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const storedMode = localStorage.getItem('isDarkMode');
+        return storedMode === 'true';
+    });
     const [activePage, setActivePage] = useState(1);
     const itemsPerPage = 10;
+
+    useEffect(() => {
+        localStorage.setItem('isDarkMode', isDarkMode);
+    }, [isDarkMode]);
+
+    useEffect(() => {
+        localStorage.setItem('selectedTypes', JSON.stringify(selectedTypes));
+    }, [selectedTypes]);
 
     useEffect(() => {
         const fetchPokemon = async () => {
@@ -79,93 +92,121 @@ function App() {
 
     const paginatedPokemons = filteredPokemons.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage);
 
-    const openPokemonDetailInNewWindow = (id) => {
-        const newWindow = window.open('', '_blank', 'width=600,height=400');
-        newWindow.document.write('<div id="pokemon-detail-root"></div>');
-        newWindow.document.title = "포켓몬 상세 페이지";
-        
-        const renderDetail = async () => {
-            const speciesRes = await axios.get(`${baseURL}/pokemon/${id}`);
-            const speciesData = await axios.get(speciesRes.data.species.url);
-            const koreanName = speciesData.data.names.find(name => name.language.name === 'ko');
-            const pokemonDetail = {
-                title: koreanName ? koreanName.name : speciesRes.data.name,
-                sprite: speciesRes.data.sprites.front_default,
-                types: speciesRes.data.types.map(t => typeTranslations[t.type.name] || t.type.name)
-            };
+    const navigate = useNavigate();
 
-            newWindow.document.body.innerHTML = `
-                <div style="text-align: center;">
-                    <h2>${pokemonDetail.title}</h2>
-                    <img src="${pokemonDetail.sprite}" alt="${pokemonDetail.title}" />
-                    <p>타입: ${pokemonDetail.types.join(', ')}</p>
+    const openPokemonDetail = (pokemon) => {
+        navigate(`/pokemon/${pokemon.id}`, { state: pokemon });
+    };
+
+    return (
+        <div className={`App ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+            <header>
+                <img src="/header.png" alt="Header" className="header-image" />
+            </header>
+
+            <div className="black-box">
+                <div className="filter-options">
+                    {Array.from(new Set(pokemonData.flatMap(pokemon => pokemon.types))).map((type) => (
+                        <label key={type}>
+                            <input
+                                type="checkbox"
+                                checked={selectedTypes.includes(type)}
+                                onChange={() => handleTypeChange(type)}
+                            />
+                            {type}
+                        </label>
+                    ))}
                 </div>
-            `;
-        };
+                <label className="switch">
+                    <input
+                        type="checkbox"
+                        onChange={() => setIsDarkMode(!isDarkMode)}
+                        checked={isDarkMode}
+                    />
+                    <span className="slider"></span>
+                </label>
+            </div>
 
-        renderDetail();
+            <main className="grid-container">
+                {paginatedPokemons.map((pokemon, index) => (
+                    <div
+                        key={index}
+                        className="pokemon-card"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => openPokemonDetail(pokemon)}
+                    >
+                        <h2>{pokemon.title}</h2>
+                        <img src={pokemon.sprite} alt={pokemon.title} />
+                        <p>{pokemon.types.join(', ')}</p>
+                    </div>
+                ))}
+            </main>
+
+            <Pagination
+                activePage={activePage}
+                itemsCountPerPage={itemsPerPage}
+                totalItemsCount={filteredPokemons.length}
+                pageRangeDisplayed={5}
+                onChange={handlePageChange}
+                innerClass="pagination"
+            />
+        </div>
+    );
+}
+
+function PokemonDetail() {
+    const { state } = useLocation();
+
+    if (!state) {
+        return <p>잘못된 접근입니다. 포켓몬을 선택해 주세요.</p>;
+    }
+
+    const { title, sprite, types } = state;
+
+    return (
+        <div className="pokemon-detail">
+            <h2>{title}</h2>
+            <img src={sprite} alt={title} />
+            <p>타입: {types.join(', ')}</p>
+            <Link to="/">목록으로 돌아가기</Link>
+        </div>
+    );
+}
+
+function SplashScreen({ onFinish }) {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onFinish();
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [onFinish]);
+
+    return (
+        <div className="splash-screen">
+            <img src="/header.png" alt="Splash Screen" className="splash-image" />
+        </div>
+    );
+}
+
+function AppWrapper() {
+    const [showSplash, setShowSplash] = useState(true);
+
+    const handleSplashFinish = () => {
+        setShowSplash(false);
     };
 
     return (
         <Router>
-            <div className={`App ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-                <header>
-                    <img src="/header.png" alt="Header" className="header-image" />
-                </header>
-
-                <div className="black-box">
-                    <div className="filter-options">
-                        {Array.from(new Set(pokemonData.flatMap(pokemon => pokemon.types))).map((type) => (
-                            <label key={type}>
-                                <input
-                                    type="checkbox"
-                                    checked={selectedTypes.includes(type)}
-                                    onChange={() => handleTypeChange(type)}
-                                />
-                                {type}
-                            </label>
-                        ))}
-                    </div>
-                    <label className="switch">
-                        <input
-                            type="checkbox"
-                            onChange={() => setIsDarkMode(!isDarkMode)}
-                            checked={isDarkMode}
-                        />
-                        <span className="slider"></span>
-                    </label>
-                </div>
-
-                <main className="grid-container">
-                    {paginatedPokemons.map((pokemon, index) => (
-                        <div
-                            key={index}
-                            className="pokemon-card"
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => openPokemonDetailInNewWindow(pokemon.id)}
-                        >
-                            <h2>{pokemon.title}</h2>
-                            <img src={pokemon.sprite} alt={pokemon.title} />
-                            <p>{pokemon.types.join(', ')}</p>
-                        </div>
-                    ))}
-                </main>
-
-                <Pagination
-                    activePage={activePage}
-                    itemsCountPerPage={itemsPerPage}
-                    totalItemsCount={filteredPokemons.length}
-                    pageRangeDisplayed={5}
-                    onChange={handlePageChange}
-                    innerClass="pagination"
-                />
-            </div>
-
-            <Routes>
-                <Route path="/" element={<div />} />
-            </Routes>
+            {showSplash ? (
+                <SplashScreen onFinish={handleSplashFinish} />
+            ) : (
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/pokemon/:id" element={<PokemonDetail />} />
+                </Routes>
+            )}
         </Router>
     );
 }
 
-export default App;
+export default AppWrapper;
